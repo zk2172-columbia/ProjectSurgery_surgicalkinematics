@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Surgical AI Research – Kinematic analytics and depth-optional state-space reconstruction for minimally-invasive surgery.">
+  <meta name="description" content="Surgical AI Research - Kinematic analytics and depth-optional state-space reconstruction for minimally-invasive surgery.">
   <meta name="keywords" content="Surgical AI, kinematics, tracking, pose estimation, depth, endoscopy">
-  <title>Surgical AI Research – Kinematics & Analytics</title>
+  <title>Surgical AI Research - Kinematics & Analytics</title>
 
   <!-- Fonts and CSS (nerfies-style stack) -->
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
@@ -72,8 +72,8 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Kinematic Analytics for Minimally-Invasive Surgery</h1>
-          <p class="subtitle is-5">Pose, tracking, and optional depth → state-space skeletons</p>
+          <h1 class="title is-1 publication-title">Kinematics Reconstruction in Minimally-Invasive Surgery</h1>
+          <p class="subtitle is-5">Pose, tracking, and optional depth → kinematic trajectories & instrument state-space skeletons</p>
 
           <div class="column has-text-centered">
             <div class="publication-links">
@@ -132,15 +132,15 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present a configurable pipeline for surgical instrument kinematic analytics from endoscopic video.
+            We present a configurable pipeline for surgical instrument kinematic reconstruction from laparoscopic video.
             Our system estimates multi-keypoint poses and persistent track IDs, exports a tidy track table for analysis,
-            and optionally augments frames with monocular depth. A depth-enabled branch maps tracked keypoints into a
-            normalized state-space to produce a compact skeleton trajectory representation suitable for behavior analysis.
+            and optionally augments to 3D state space with configurable depth inference. Tracked keypoints are optionally converted into a
+            normalized state-space to produce a compact skeleton trajectory representation suitable for applications such as robotic policy training & behavior analytics.
           </p>
           <p>
-            The website showcases short qualitative clips, method diagrams, and analytics (e.g., UMAP clusters).
+            This site showcases demonstration clips, method diagrams, and utility analytics (e.g., trajectory clusters).
             Depth is <b>optional</b> and currently in work; the state-space <b>skeleton export</b> is a toggle that
-            runs on top of 2D tracks, with or without depth. The goal is a research-friendly toolchain that is fast to test,
+            runs on top of generated instrument trajectories, with or without depth. The goal is a research-friendly toolchain that is fast to test,
             transparent to tune, and easy to integrate into larger surgical autonomy stacks.
           </p>
         </div>
@@ -173,26 +173,27 @@
       <div class="column is-full-width">
         <h2 class="title is-3">Method</h2>
         <div class="content has-text-justified">
-          <p><b>Inputs:</b> monocular endoscopic video (de-identified demo clips).</p>
-          <p><b>Pose & Tracking:</b> multi-keypoint detector + tracker yields per-frame keypoints and stable track IDs.</p>
-          <p><b>Optional Depth:</b> monocular depth (e.g., Metric3D/Depth-Anything) can be toggled per run or per demo.</p>
-          <p><b>State-Space Skeleton (toggle):</b> a lightweight transform converts tracked keypoints into a normalized
-             kinematic state-space (2D/2.5D), exported as JSON alongside the tidy track table.</p>
-          <p><b>Analytics (optional):</b> windowed features → clustering/UMAP, with exemplar frames and visual summaries.</p>
-        </div>
+          <p><b>Inputs:</b> Laparoscopic video (monocular or stereo).</p>
+          <p><b>Pose & Tracking Outputs:</b> instrument detector + multi-keypoint tracker yields per-frame keypoints and stable track IDs.</p>
+          <p><b>Optional Depth:</b> stereo depth (NVLabs FoundationStereo) or finetuned monocular depth (e.g., Metric3D/Depth-Anything).</p>
+          <p><b>State-Space Transform:</b> Converts tracked pose skeleton into a normalized
+             kinematic state-space (2D/3D), exported as JSON alongside the tidy track table.</p>
+          <p><b>Applications:</b> kinematic clips → windowed clustering, with exemplar frames and visual summaries.</p>
+        </div>  
+
 
         <div class="columns is-variable is-6">
           <div class="column">
             <figure class="image is-16by9">
               <img src="./static/images/pipeline.png" alt="Pipeline diagram: input video → pose/tracks → (depth) → state-space skeleton.">
             </figure>
-            <p class="has-text-centered is-size-7">Fig. 1 – Pipeline overview.</p>
+            <p class="has-text-centered is-size-7">Fig. 1 - Pipeline overview.</p>
           </div>
           <div class="column">
             <figure class="image is-16by9">
               <img src="./static/images/analytics.png" alt="UMAP clustering of windowed kinematic features.">
             </figure>
-            <p class="has-text-centered is-size-7">Fig. 2 – Analytics (UMAP clusters) with exemplar clips.</p>
+            <p class="has-text-centered is-size-7">Fig. 2 - Demo Kinematic Analytics (trajectory clusters)</p>
           </div>
         </div>
       </div>
@@ -230,7 +231,7 @@
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
 <pre><code>@article{surgai_kinematics_2025,
-  author    = {McHugh, Liam and Collaborators},
+  author    = {McHugh, Liam and Chen, Xudong and Turkan, Mehmet K. and Ballo, Mattia and Godbole, Aditya and Morais, Maria and Kostic, Zoran and Filicori, Filippo},
   title     = {Kinematic Analytics for Minimally-Invasive Surgery: Depth-Optional State-Space Reconstruction},
   journal   = {preprint},
   year      = {2025},
@@ -254,10 +255,9 @@
         <div class="content">
           <p>
             This website is adapted from the nerfies project page structure. 
-            Please remove any analytics code you don’t intend to use.
           </p>
           <p>
-            © 2025 Surgical AI Research. Content under CC BY-NC 4.0; code under MIT/Apache-2.0 where noted.
+            © 2025 Surgical AI Research through Columbia AIDL & IPAL. Content under CC BY-NC 4.0; code under MIT/Apache-2.0 where noted.
           </p>
         </div>
       </div>
