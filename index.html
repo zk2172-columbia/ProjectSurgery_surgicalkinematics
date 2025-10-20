@@ -166,11 +166,11 @@
           <p><b>Inputs:</b> Laparoscopic video (monocular or stereo).</p>
           <p><b>Pose & Tracking Outputs:</b> instrument detector + multi-keypoint tracker yields per-frame keypoints and stable track IDs.</p>
           <p><b>Optional Depth:</b> stereo depth (NVLabs FoundationStereo) or finetuned monocular depth (e.g., Metric3D/Depth-Anything).</p>
+          <p><b>Optional Segmentation Mask Constraint:</b> Applies a segmentation mask prompted by detection bounding boxes to constrain keypoint depth estimation to instrument masks. SAM2 Finetuning in progress.</p>
           <p><b>State-Space Transform:</b> Converts tracked pose skeleton into a normalized
              kinematic state-space (2D/3D), exported as JSON alongside the tidy track table.</p>
           <p><b>Applications:</b> kinematic clips → windowed clustering, with exemplar frames and visual summaries.</p>
         </div>  
-
 
         <div class="columns is-variable is-6">
           <div class="column">
@@ -191,28 +191,71 @@
   </div>
 </section>
 
+<!-- TRAINING -->
+<section class="section" id="training">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+  <h2 class="title is-3">Training</h2>
+  <div class="content has-text-justified">
+    <p>
+      Our pipeline leverages fine-tuned Yolov11 models for pose estimation and Metric3D monocular depth prediction (NVLabs FoundationStereo can also be used for depth inference).
+      Our Yolov11 detection-pose models are trained on ~5k manually-annotated instruments across 25 SurgVU videos using data augmentations including random rotation, scaling, brightness/contrast jitter, and horizontal flipping.
+      Our Metric3D Monocular Depth model is fine-tuned on 25 Hamlyn stereoscopic videos with NVLabs FoundationStereo-generated annotation maps.
+      Below are training reports showing convergence and held-out validation metrics.
+    </p>
+  </div>
+  <div class="columns is-variable is-6">
+    <div class="column">
+      <figure class="image">
+        <img src="./static/images/pose_labels.png" alt="Pose training curves: loss and keypoint accuracy over epochs.">
+      </figure>
+      <p class="has-text-centered is-size-7">Pose Model Label Report: Six Instrument Classes</p>
+    </div>
+    <div class="column">
+      <figure class="image">
+        <img src="./static/images/pose_results.png" alt="Depth training curves: loss and depth error metrics over epochs.">
+      </figure>
+      <p class="has-text-centered is-size-7">Pose Model Training Report: YoloV11-small</p>
+    </div>
+  </div>
+
+  <div class="columns is-variable is-6">
+    <div class="column">
+      <figure class="image">
+        <img src="./static/images/m3d_train.png" alt="Pose training curves: loss and keypoint accuracy over epochs.">
+      </figure>
+      <p class="has-text-centered is-size-7">Pose Model Training Report</p>
+    </div>
+    <div class="column">
+      <figure class="image">
+        <img src="./static/images/depth_result.png" alt="Depth Comparisons: NVLabs FoundationsStereo & Fine-Tuned Metric3D Inference.">
+      </figure>
+      <p class="has-text-centered is-size-7">Depth Model Training Report</p>
+    </div>
+  </div>
+
+</section>
+
 <!-- RESULTS (carousel) -->
 <section class="hero is-light is-small" id="results">
   <div class="hero-body">
     <div class="container">
       <div id="results-carousel" class="carousel results-carousel">
-        <div class="item">
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/pose_only.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/pose_depth.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/pose_depth_skeleton.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
-    </div>
+  <div class="item">
+    <video autoplay controls muted loop playsinline height="100%">
+      <source src="./static/videos/pose_only.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="item">
+    <video autoplay controls muted loop playsinline height="100%">
+      <source src="./static/videos/pose_depth.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="item">
+    <video autoplay controls muted loop playsinline height="100%">
+      <source src="./static/videos/pose_depth_skeleton.mp4" type="video/mp4">
+    </video>
   </div>
 </section>
 
@@ -221,7 +264,7 @@
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
 <pre><code>@article{surgai_kinematics_2025,
-  author    = {McHugh, Liam and Chen, Xudong and Turkan, Mehmet K. and Ballo, Mattia and Godbole, Aditya and Morais, Maria and Kostic, Zoran and Filicori, Filippo},
+  author    = {McHugh, Liam and Chen, Xudong and Turkan, Mehmet K. and Ballo, Mattia and Aditya Amit Godbole and Morais, Maria and Kostic, Zoran and Filicori, Filippo},
   title     = {Kinematic Analytics for Minimally-Invasive Surgery: Depth-Optional State-Space Reconstruction},
   journal   = {preprint},
   year      = {2025},
